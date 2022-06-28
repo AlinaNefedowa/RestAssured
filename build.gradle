@@ -21,7 +21,31 @@ test {
 }
 
 task getSecondUser(type: Test) {
-    useJUnitPlatform{
+    useJUnitPlatform {
         includeTags "getSecondUser"
+    }
+
+    task createUser(type: Test) {
+        useJUnitPlatform {
+            includeTags "createUser"
+        }
+    }
+
+    task updateUser(type: Test) {
+        useJUnitPlatform {
+            includeTags "updateUser"
+        }
+    }
+
+    task deleteUser(type: Test) {
+        useJUnitPlatform {
+            includeTags "deleteUser"
+        }
+    }
+
+    task singleUserNotFound(type: Test) {
+        useJUnitPlatform {
+            includeTags "singleUserNotFound"
+        }
     }
 }

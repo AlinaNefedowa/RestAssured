@@ -11,7 +11,8 @@ import static org.hamcrest.Matchers.is;
 public class ReqresTests extends TestBase {
 
     String createUser = "/api/users",
-            users2Url = "/api/users/2";
+            users2Url = "/api/users/2",
+            userNotFound = "/api/users/23";
 
     String bodyForUserCreation = "{\"name\": \"Rosa\",\"job\": \"artist\"}",
             bodyForUserUpdate = "{\"name\": \"Rosa\",\"job\": \"zion resident\"}";
@@ -20,7 +21,6 @@ public class ReqresTests extends TestBase {
     @DisplayName("Get second user")
     @Tag("getSecondUser")
     void getSecondUser() {
-
         given()
                 .log().uri()
                 .when()
@@ -32,10 +32,11 @@ public class ReqresTests extends TestBase {
                 .body("data.id", is(2));
     }
 
+
     @Test
     @DisplayName("Create user")
+    @Tag("createUser")
     void createUser() {
-
         given()
                 .log().uri()
                 .log().body()
@@ -50,32 +51,18 @@ public class ReqresTests extends TestBase {
                 .body("name", is("Rosa"))
                 .body("job", is("artist"));
     }
-}
-
-    /*
-    @Test
-    @DisplayName("Create user")
-    void createUser() {
-
-        given()
-                .when(bodyForUserCreation)
-                .get(createUser)
-                .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .body("name", is("Rosa"))
-                .body("job", is("artist"));
-    }
-
 
     @Test
     @DisplayName("Update user")
+    @Tag("updateUser")
     void updateUser() {
         given()
-                .body(bodyForUserCreation)
+                .log().uri()
+                .log().body()
+                .body(bodyForUserUpdate)
+                .contentType(ContentType.JSON)
                 .when()
-                .post(createUser)
+                .put(users2Url)
                 .then()
                 .log().status()
                 .log().body()
@@ -84,17 +71,30 @@ public class ReqresTests extends TestBase {
                 .body("job", is("zion resident"));
     }
 
+
     @Test
     @DisplayName("Delete user")
+    @Tag("deleteUser")
     void deleteUser() {
         given()
                 .when()
-                .delete(createUser)
+                .delete(users2Url)
                 .then()
                 .log().status()
                 .log().body()
                 .statusCode(204);
     }
 
+    @Test
+    @DisplayName("Single user not found")
+    @Tag("singleUserNotFound")
+    void singleUserNotFound() {
+        given()
+                .when()
+                .get(userNotFound)
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(404);
     }
-*/
+ }
